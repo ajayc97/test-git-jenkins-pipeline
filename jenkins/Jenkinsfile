@@ -20,7 +20,11 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-                writeFile file: 'output/test_file_from_pipeline.txt', text: 'Choice selected: "${params.TestChoice}"\nHeading entered: "${params.TestHeading}"\nDescription entered: "${params.TestDescription}"\nPassword entered: "${params.TestPassword}"'
+                
+                def data = "${params.TestChoice}\nHeading entered: ${params.TestHeading}\nDescription entered: ${params.TestDescription}\nPassword entered: ${params.TestPassword}"
+                writeFile(file: 'output/file_from_pipeline.txt', text: data)
+                
+                writeFile file: ''
                 sleep 5
             }
         }
