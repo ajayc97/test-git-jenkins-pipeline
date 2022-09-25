@@ -20,14 +20,19 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-                writeFile file: 'output/test_file_from_pipeline.txt', text: 'Choice selected: ${params.TestChoice}\nHeading entered: ${params.TestHeading}\nDescription entered: ${params.TestDescription}\nPassword entered: ${params.TestPassword}'
+                writeFile file: 'output/test_file_from_pipeline.txt', text: 'Choice selected: "${params.TestChoice}"\nHeading entered: "${params.TestHeading}"\nDescription entered: "${params.TestDescription}"\nPassword entered: "${params.TestPassword}"'
                 sleep 5
             }
         }
         stage('Test') {
             steps {
-                echo 'Running tests...'
-                sleep 2
+                echo "Choice selected: ${params.TestChoice}"
+
+                echo "Heading entered: ${params.TestHeading}"
+
+                echo "Description entered: ${params.TestDescription}"
+
+                echo "Password entered: ${params.TestPassword}"
             }
         }
         stage('Deploy') {
