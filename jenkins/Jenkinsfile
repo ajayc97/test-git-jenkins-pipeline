@@ -1,12 +1,27 @@
 pipeline {
     agent any
+    
+    parameters {
+    	choice(name: 'TestChoice', choices: ['One', 'Two', 'Three'], description: 'Pick something')
+    	
+        string(name: 'TestHeading', defaultValue: 'None passed', description: 'Heading to be passed to the file')
+
+        text(name: 'TestDescription', defaultValue: '', description: 'Enter some information about the person')
+
+        password(name: 'TestPassword', defaultValue: 'SECRET', description: 'Enter a password')
+    }
 
     stages {
+    	stage('Clean Up') {
+            steps {
+                deleteDir()
+            }
+        }
         stage('Build') {
             steps {
                 echo 'Building..'
-                writeFile file: 'test_file_from_pipeline.txt', text: 'Content inside the file from git pipeline'
-                sleep 10
+                writeFile file: 'output/test_file_from_pipeline.txt', text: 'Choice selected: ${params.TestChoice}\nHeading entered: ${params.TestHeading}\nDescription entered: ${params.TestDescription}\nPassword entered: ${params.TestPassword}'
+                sleep 5
             }
         }
         stage('Test') {
